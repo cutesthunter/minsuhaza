@@ -469,11 +469,11 @@ footer {
 
 <script>
 const THEMES = [
-  { key:'all',      label:'전체',   icon:'🗺️' },
-  { key:'dining',   label:'식당',   icon:'🍽️' },
-  { key:'cafe',     label:'카페',   icon:'☕' },
-  { key:'shopping', label:'쇼핑',   icon:'🛍️' },
-  { key:'place',    label:'관광지', icon:'🏛️' },
+  { key:'all', label:'전체', icon:'🗺️' },
+  { key:'dining', label:'식당', icon:'🍽️' },
+  { key:'cafe', label:'카페', icon:'☕' },
+  { key:'shopping', label:'쇼핑', icon:'🛍️' },
+  { key:'place', label:'기타', icon:'🏛️' },
 ];
 
 const PLACES = [
@@ -496,7 +496,7 @@ const PLACES = [
     naver:'https://map.naver.com/v5/search/더콘란샵이태원', kakao:'https://map.kakao.com/?q=더콘란샵이태원',
     src:'팬 목격담', tags:['인테리어','편집숍','이태원'], thumb:'🛋️', tbg:'#150f1e', vDate:'2024-10-05' },
 
-  { id:4, celeb:'BTS', cShort:'BTS', cAv:'av-purple', cat:'place', catL:'관광지',
+  { id:4, celeb:'BTS', cShort:'BTS', cAv:'av-purple', cat:'place', catL:'기타',
     name:'국립중앙박물관', desc:'전통 미술에 관심이 많은 뷔가 혼자 또는 지인들과 즐겨 찾는 문화 공간.',
     addr:'서울 용산구 서빙고로 137', area:'용산', hours:'화–일 10:00–18:00 (수·토 21:00까지)', closed:'매주 월요일 / 1월 1일 휴관',
     naver:'https://map.naver.com/v5/search/국립중앙박물관', kakao:'https://map.kakao.com/?q=국립중앙박물관',
@@ -553,16 +553,16 @@ const PLACES = [
     src:'SNS 목격담', tags:['바','스피크이지','한남동','프라이빗'], thumb:'🍸', tbg:'#0a0e1a', vDate:'2024-10-28' },
 
   // ── 아이브 (IVE)
-  { id:16, celeb:'홍길동', cShort:'홍길동', cAv:'av-blue',
+ { id:16, celeb:'라이즈', cShort:'라이즈', cAv:'av-blue',
   cat:'cafe', catL:'카페',
   name:'장소 이름',
   desc:'어떤 계기로 알려진 장소인지 간단히 설명',
   addr:'서울 강남구 테헤란로 123', area:'강남',
   hours:'매일 10:00–22:00', closed:'매주 월요일 휴무',
-  naver:'https://map.naver.com/v5/search/장소이름',
-  kakao:'https://map.kakao.com/?q=장소이름',
-  src:'팬 목격담', tags:['태그1','태그2','지역명'],
-  thumb:'☕', tbg:'#0e1a16', vDate:'2025-01-15' },
+  naver:'#', kakao:'#',
+  src:'팬 목격담', tags:['라이즈'],
+  img:'https://images.unsplash.com/photo-1504674900247-0877df9cc836',
+  tbg:'#0e1a16', vDate:'2025-01-15' },
   { id:13, celeb:'아이브 (IVE)', cShort:'아이브', cAv:'av-teal', cat:'cafe', catL:'카페',
     name:'르 쁘띠 파리', desc:'아이브이 브이로그에서 직접 소개한 프렌치 감성 카페. 크루아상과 라테가 시그니처.',
     addr:'서울 마포구 연남로 156-1', area:'연남동', hours:'매일 10:00–22:00', closed:'매주 화요일 휴무',
@@ -581,6 +581,38 @@ const PLACES = [
     naver:'https://map.naver.com/v5/search/스시이덴강남', kakao:'https://map.kakao.com/?q=스시이덴강남',
     src:'팬 커뮤니티 목격담', tags:['오마카세','일식','강남','예약필수'], thumb:'🍣', tbg:'#101018', vDate:'2024-10-15' },
 ];
+  { id:17, celeb:'세븐틴', cShort:'세븐틴', cAv:'av-purple',
+  cat:'cafe', catL:'카페',
+  name:'세븐틴 카페',
+  desc:'세븐틴 팬들이 많이 찾는 핫플',
+  addr:'서울 마포구 홍대', area:'홍대',
+  hours:'매일 10:00–22:00', closed:'',
+  naver:'#', kakao:'#',
+  src:'팬 목격담', tags:['세븐틴'],
+  img:'https://images.unsplash.com/photo-1495474472287-4d71bcdd2085',
+  tbg:'#0e1a16', vDate:'2025-02-01' },
+
+{ id:18, celeb:'투모로우바이투게더', cShort:'투바투', cAv:'av-blue',
+  cat:'dining', catL:'식당',
+  name:'투바투 맛집',
+  desc:'멤버들이 방문한 식당',
+  addr:'서울 강남', area:'강남',
+  hours:'매일 11:00–21:00', closed:'',
+  naver:'#', kakao:'#',
+  src:'팬 커뮤니티', tags:['투바투'],
+  img:'https://images.unsplash.com/photo-1504674900247-0877df9cc836',
+  tbg:'#1e0e20', vDate:'2025-02-05' },
+
+{ id:19, celeb:'보이넥스트도어', cShort:'보넥도', cAv:'av-teal',
+  cat:'shopping', catL:'쇼핑',
+  name:'보넥도 쇼핑 스팟',
+  desc:'스타일링 관련 방문 장소',
+  addr:'서울 성수', area:'성수',
+  hours:'매일 11:00–20:00', closed:'',
+  naver:'#', kakao:'#',
+  src:'팬 목격담', tags:['보넥도'],
+  img:'https://images.unsplash.com/photo-1521335629791-ce4aec67dd53',
+  tbg:'#101018', vDate:'2025-02-10' },
 
 // ── REVIEWS (localStorage)
 function getRevs(id) { try { return JSON.parse(localStorage.getItem('rev_'+id)||'[]'); } catch(e){ return []; } }
@@ -757,3 +789,16 @@ document.addEventListener('DOMContentLoaded',()=>{
 </script>
 </body>
 </html>
+.thumb-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.card-thumb img {
+  transition: transform .3s ease;
+}
+
+.card:hover .card-thumb img {
+  transform: scale(1.05);
+}
