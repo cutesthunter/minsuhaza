@@ -477,20 +477,20 @@ const THEMES = [
 ];
 
 const PLACES = [
-  // ── 뷔 (BTS)
-  { id:1, celeb:'뷔 (BTS)', cShort:'뷔', cAv:'av-purple', cat:'dining', catL:'식당',
+  // ── BTS
+  { id:1, celeb:'BTS', cShort:'BTS', cAv:'av-purple', cat:'dining', catL:'식당',
     name:'이레 레스토랑', desc:'뷔가 지인들과 여러 차례 방문한 한남동 파인다이닝. 인스타 목격담으로 팬들 성지가 됐어요.',
     addr:'서울 용산구 한남대로 36길 14', area:'한남동', hours:'월–금 12:00–22:00 / 토·일 11:00–22:00', closed:'',
     naver:'https://map.naver.com/v5/search/이레레스토랑한남', kakao:'https://map.kakao.com/?q=이레레스토랑한남',
     src:'온라인 커뮤니티 목격담', tags:['한식','파인다이닝','한남동'], thumb:'🍽️', tbg:'#1e0e20', vDate:'2024-12-10' },
 
-  { id:2, celeb:'뷔 (BTS)', cShort:'뷔', cAv:'av-purple', cat:'cafe', catL:'카페',
+  { id:2, celeb:'BTS', cShort:'BTS', cAv:'av-purple', cat:'cafe', catL:'카페',
     name:'블루보틀 한남점', desc:'뷔의 팬카페 인증샷으로 유명해진 스페셜티 커피숍. 조용한 분위기와 핸드드립이 특징.',
     addr:'서울 용산구 한남대로 92-12', area:'한남동', hours:'매일 07:30–21:00', closed:'',
     naver:'https://map.naver.com/v5/search/블루보틀한남', kakao:'https://map.kakao.com/?q=블루보틀한남',
     src:'팬 직캠·인증샷', tags:['카페','스페셜티','한남동'], thumb:'☕', tbg:'#0e1a16', vDate:'2024-11-22' },
 
-  { id:3, celeb:'뷔 (BTS)', cShort:'뷔', cAv:'av-purple', cat:'shopping', catL:'쇼핑',
+  { id:3, celeb:'BTS', cShort:'뷔', cAv:'av-purple', cat:'shopping', catL:'쇼핑',
     name:'더 콘란 샵 이태원', desc:'뷔가 인테리어·빈티지 소품 구매 목적으로 자주 들른다고 알려진 라이프스타일 편집숍.',
     addr:'서울 용산구 이태원로 200', area:'이태원', hours:'매일 11:00–21:00', closed:'',
     naver:'https://map.naver.com/v5/search/더콘란샵이태원', kakao:'https://map.kakao.com/?q=더콘란샵이태원',
@@ -528,45 +528,55 @@ const PLACES = [
     src:'유튜브 인터뷰', tags:['궁궐','야간개장','종로','포토스팟'], thumb:'🏯', tbg:'#0f1000', vDate:'2024-09-30' },
 
   // ── 제니 (BLACKPINK)
-  { id:9, celeb:'제니 (BLACKPINK)', cShort:'제니', cAv:'av-amber', cat:'dining', catL:'식당',
+  { id:9, celeb:'블랙핑크 (BLACKPINK)', cShort:'블랙핑크', cAv:'av-amber', cat:'dining', catL:'식당',
     name:'모수 서울', desc:'제니가 해외 게스트 접대로 선택하며 유명해진 청담 파인다이닝. 예약 필수 코스 레스토랑.',
     addr:'서울 강남구 선릉로158길 11', area:'청담동', hours:'화–토 12:00–15:00, 18:00–22:00', closed:'일·월요일 휴무',
     naver:'https://map.naver.com/v5/search/모수서울', kakao:'https://map.kakao.com/?q=모수서울',
     src:'SNS 파파라치·목격담', tags:['파인다이닝','코스','청담동','예약필수'], thumb:'🌿', tbg:'#0e1a12', vDate:'2024-12-18' },
 
-  { id:10, celeb:'제니 (BLACKPINK)', cShort:'제니', cAv:'av-amber', cat:'shopping', catL:'쇼핑',
+  { id:10, celeb:'블랙핑크 (BLACKPINK)', cShort:'블랙핑크', cAv:'av-amber', cat:'shopping', catL:'쇼핑',
     name:'도산 샤넬 부티크', desc:'제니가 화보 촬영 후 쇼핑하며 포착된 도산공원 명품 부티크. 제니 픽 아이템은 즉시 품절.',
     addr:'서울 강남구 도산대로 45길 16', area:'도산공원', hours:'매일 11:00–20:00', closed:'',
     naver:'https://map.naver.com/v5/search/샤넬부티크도산', kakao:'https://map.kakao.com/?q=샤넬부티크도산',
     src:'팬 목격담·파파라치', tags:['명품','패션','도산공원'], thumb:'👜', tbg:'#100f0a', vDate:'2024-12-05' },
 
-  { id:11, celeb:'제니 (BLACKPINK)', cShort:'제니', cAv:'av-amber', cat:'cafe', catL:'카페',
+  { id:11, celeb:'블랙핑크 (BLACKPINK)', cShort:'블랙핑크', cAv:'av-amber', cat:'cafe', catL:'카페',
     name:'테라로사 강남점', desc:'제니가 오전 시간 자주 방문하는 것으로 알려진 스페셜티 커피 바.',
     addr:'서울 강남구 도산대로 317', area:'신사동', hours:'매일 08:00–22:00', closed:'',
     naver:'https://map.naver.com/v5/search/테라로사강남', kakao:'https://map.kakao.com/?q=테라로사강남',
     src:'팬 목격담', tags:['카페','스페셜티','신사동'], thumb:'☕', tbg:'#120e0e', vDate:'2024-11-08' },
 
-  { id:12, celeb:'제니 (BLACKPINK)', cShort:'제니', cAv:'av-amber', cat:'dining', catL:'식당',
+  { id:12, celeb:'블랙핑크 (BLACKPINK)', cShort:'블랙핑크', cAv:'av-amber', cat:'dining', catL:'식당',
     name:'르 챔버', desc:'제니가 지인들과 방문한 한남동 프라이빗 스피크이지 바. 초대장 없이는 입장이 어려운 곳.',
     addr:'서울 용산구 한남동 (주소 비공개)', area:'한남동', hours:'화–토 19:00–03:00', closed:'일·월요일 휴무',
     naver:'https://map.naver.com/v5/search/르챔버한남', kakao:'https://map.kakao.com/?q=르챔버한남',
     src:'SNS 목격담', tags:['바','스피크이지','한남동','프라이빗'], thumb:'🍸', tbg:'#0a0e1a', vDate:'2024-10-28' },
 
-  // ── 장원영 (IVE)
-  { id:13, celeb:'장원영 (IVE)', cShort:'장원영', cAv:'av-teal', cat:'cafe', catL:'카페',
-    name:'르 쁘띠 파리', desc:'장원영이 브이로그에서 직접 소개한 프렌치 감성 카페. 크루아상과 라테가 시그니처.',
+  // ── 아이브 (IVE)
+  { id:16, celeb:'홍길동', cShort:'홍길동', cAv:'av-blue',
+  cat:'cafe', catL:'카페',
+  name:'장소 이름',
+  desc:'어떤 계기로 알려진 장소인지 간단히 설명',
+  addr:'서울 강남구 테헤란로 123', area:'강남',
+  hours:'매일 10:00–22:00', closed:'매주 월요일 휴무',
+  naver:'https://map.naver.com/v5/search/장소이름',
+  kakao:'https://map.kakao.com/?q=장소이름',
+  src:'팬 목격담', tags:['태그1','태그2','지역명'],
+  thumb:'☕', tbg:'#0e1a16', vDate:'2025-01-15' },
+  { id:13, celeb:'아이브 (IVE)', cShort:'아이브', cAv:'av-teal', cat:'cafe', catL:'카페',
+    name:'르 쁘띠 파리', desc:'아이브이 브이로그에서 직접 소개한 프렌치 감성 카페. 크루아상과 라테가 시그니처.',
     addr:'서울 마포구 연남로 156-1', area:'연남동', hours:'매일 10:00–22:00', closed:'매주 화요일 휴무',
     naver:'https://map.naver.com/v5/search/르쁘띠파리연남', kakao:'https://map.kakao.com/?q=르쁘띠파리연남',
     src:'본인 브이로그 공개', tags:['카페','프렌치','연남동'], thumb:'🥐', tbg:'#0f1118', vDate:'2024-12-22' },
 
-  { id:14, celeb:'장원영 (IVE)', cShort:'장원영', cAv:'av-teal', cat:'shopping', catL:'쇼핑',
-    name:'분더샵 청담', desc:'장원영 스타일리스트가 자주 들르며 원영이도 함께 방문했다 알려진 하이엔드 편집숍.',
+  { id:14, celeb:'아이브 (IVE)', cShort:'아이브', cAv:'av-teal', cat:'shopping', catL:'쇼핑',
+    name:'분더샵 청담', desc:'아이브 스타일리스트가 자주 들르며 원영이도 함께 방문했다 알려진 하이엔드 편집숍.',
     addr:'서울 강남구 청담동 95-4', area:'청담동', hours:'매일 11:00–20:00', closed:'',
     naver:'https://map.naver.com/v5/search/분더샵청담', kakao:'https://map.kakao.com/?q=분더샵청담',
     src:'팬 커뮤니티·목격담', tags:['편집숍','하이엔드','청담동'], thumb:'✨', tbg:'#0e1018', vDate:'2024-11-30' },
 
-  { id:15, celeb:'장원영 (IVE)', cShort:'장원영', cAv:'av-teal', cat:'dining', catL:'식당',
-    name:'스시 이덴', desc:'장원영이 생일 기념 식사로 다녀왔다 알려진 오마카세. 제철 생선 코스로 예약 필수.',
+  { id:15, celeb:'아이브 (IVE)', cShort:'아이브', cAv:'av-teal', cat:'dining', catL:'식당',
+    name:'스시 이덴', desc:'아이브이 생일 기념 식사로 다녀왔다 알려진 오마카세. 제철 생선 코스로 예약 필수.',
     addr:'서울 강남구 논현로 842', area:'강남', hours:'화–일 12:00–22:00 (예약제)', closed:'매주 월요일 휴무',
     naver:'https://map.naver.com/v5/search/스시이덴강남', kakao:'https://map.kakao.com/?q=스시이덴강남',
     src:'팬 커뮤니티 목격담', tags:['오마카세','일식','강남','예약필수'], thumb:'🍣', tbg:'#101018', vDate:'2024-10-15' },
