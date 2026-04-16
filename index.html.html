@@ -1,0 +1,749 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>손민수 지도 — 셀럽이 간 그 곳</title>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700&family=Playfair+Display:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+:root {
+  --bg: #0a0a0f;
+  --surface: #13131c;
+  --card: #1a1a27;
+  --card-hover: #1f1f2e;
+  --border: rgba(255,255,255,0.07);
+  --border-accent: rgba(255,98,157,0.35);
+  --pink: #ff629d;
+  --pink-soft: rgba(255,98,157,0.12);
+  --gold: #e8c87a;
+  --text-primary: #f0eef8;
+  --text-secondary: rgba(240,238,248,0.55);
+  --text-muted: rgba(240,238,248,0.28);
+  --font-body: 'Noto Sans KR', sans-serif;
+  --font-display: 'Playfair Display', serif;
+  --radius: 16px;
+}
+html { scroll-behavior: smooth; }
+body { font-family: var(--font-body); background: var(--bg); color: var(--text-primary); min-height: 100vh; overflow-x: hidden; }
+body::before {
+  content:''; position:fixed; top:-30%; left:50%; transform:translateX(-50%);
+  width:800px; height:800px;
+  background: radial-gradient(circle, rgba(255,98,157,0.05) 0%, transparent 65%);
+  pointer-events:none; z-index:0;
+}
+
+/* ── HEADER ── */
+header {
+  position:sticky; top:0; z-index:200;
+  background:rgba(10,10,15,0.9); backdrop-filter:blur(20px); -webkit-backdrop-filter:blur(20px);
+  border-bottom:1px solid var(--border);
+}
+.header-inner {
+  max-width:1200px; margin:0 auto; padding:0 2rem;
+  display:flex; align-items:center; gap:1.25rem; height:60px;
+}
+.logo { display:flex; align-items:center; gap:.5rem; text-decoration:none; flex-shrink:0; }
+.logo-main { font-family:var(--font-display); font-size:1.3rem; font-weight:700; color:var(--text-primary); line-height:1; }
+.logo-dot { width:7px; height:7px; border-radius:50%; background:var(--pink); flex-shrink:0; }
+.search-wrap { flex:1; max-width:380px; position:relative; }
+.search-wrap input {
+  width:100%; background:rgba(255,255,255,0.05); border:1px solid var(--border);
+  border-radius:50px; padding:.45rem 1rem .45rem 2.4rem;
+  color:var(--text-primary); font-family:var(--font-body); font-size:.84rem; outline:none;
+  transition:border-color .2s, background .2s;
+}
+.search-wrap input::placeholder { color:var(--text-muted); }
+.search-wrap input:focus { border-color:var(--pink); background:rgba(255,98,157,0.05); }
+.search-ico { position:absolute; left:.8rem; top:50%; transform:translateY(-50%); font-size:.85rem; pointer-events:none; opacity:.45; }
+.total-badge {
+  margin-left:auto; font-size:.75rem; color:var(--text-muted);
+  background:var(--surface); border:1px solid var(--border);
+  padding:.25rem .7rem; border-radius:50px; flex-shrink:0;
+}
+.total-badge b { color:var(--pink); }
+
+/* ── HERO ── */
+.hero { text-align:center; padding:4.5rem 2rem 2.5rem; position:relative; z-index:1; }
+.hero-tag {
+  display:inline-flex; align-items:center; gap:.4rem;
+  background:var(--pink-soft); border:1px solid rgba(255,98,157,.22);
+  color:var(--pink); font-size:.7rem; font-weight:700; letter-spacing:.1em;
+  padding:.28rem .9rem; border-radius:50px; margin-bottom:1.2rem;
+}
+.hero h1 {
+  font-family:var(--font-display); font-size:clamp(2rem,5vw,3.5rem);
+  font-weight:700; line-height:1.15; letter-spacing:-.02em; margin-bottom:.9rem;
+}
+.hero h1 em { font-style:italic; color:var(--pink); }
+.hero p { font-size:.9rem; color:var(--text-secondary); line-height:1.75; max-width:420px; margin:0 auto; }
+
+/* ── THEME TABS ── */
+.theme-bar {
+  position:sticky; top:60px; z-index:150;
+  background:rgba(10,10,15,0.92); backdrop-filter:blur(16px); -webkit-backdrop-filter:blur(16px);
+  border-bottom:1px solid var(--border);
+}
+.theme-inner {
+  max-width:1200px; margin:0 auto; padding:0 2rem;
+  display:flex; align-items:stretch; overflow-x:auto; scrollbar-width:none; height:52px;
+}
+.theme-inner::-webkit-scrollbar { display:none; }
+.theme-tab {
+  display:inline-flex; align-items:center; gap:.45rem;
+  padding:0 1.1rem; border:none; background:transparent; cursor:pointer;
+  color:var(--text-muted); font-family:var(--font-body); font-size:.83rem; font-weight:500;
+  border-bottom:2px solid transparent; transition:color .2s, border-color .2s;
+  white-space:nowrap; flex-shrink:0; position:relative; top:1px;
+}
+.theme-tab .t-icon { font-size:.92rem; }
+.theme-tab .t-count {
+  background:rgba(255,255,255,.07); color:var(--text-muted);
+  font-size:.63rem; font-weight:700; padding:.08rem .38rem; border-radius:50px;
+  transition:all .2s;
+}
+.theme-tab:hover { color:var(--text-primary); }
+.theme-tab.active { color:var(--pink); border-bottom-color:var(--pink); }
+.theme-tab.active .t-count { background:var(--pink-soft); color:var(--pink); }
+
+/* ── CONTROLS ROW ── */
+.controls-row {
+  max-width:1200px; margin:0 auto; padding:1.2rem 2rem .7rem;
+  display:flex; align-items:center; gap:.75rem; flex-wrap:wrap; position:relative; z-index:1;
+}
+.celeb-chips { display:flex; gap:.38rem; flex-wrap:wrap; flex:1; }
+.chip {
+  display:inline-flex; align-items:center; gap:.32rem; padding:.26rem .78rem;
+  border-radius:50px; font-size:.77rem; font-weight:500; cursor:pointer;
+  border:1px solid var(--border); background:transparent; color:var(--text-secondary);
+  transition:all .17s; white-space:nowrap; font-family:var(--font-body);
+}
+.chip:hover { border-color:rgba(255,98,157,.3); color:var(--text-primary); }
+.chip.active { background:var(--pink-soft); border-color:rgba(255,98,157,.5); color:var(--pink); }
+.chip .cdot { width:5px; height:5px; border-radius:50%; background:currentColor; opacity:.8; }
+.sort-wrap { display:flex; align-items:center; gap:.5rem; flex-shrink:0; }
+.sort-lbl { font-size:.72rem; color:var(--text-muted); }
+.sort-sel {
+  background:var(--surface); border:1px solid var(--border); border-radius:8px;
+  padding:.3rem .65rem; color:var(--text-secondary); font-family:var(--font-body);
+  font-size:.78rem; outline:none; cursor:pointer;
+}
+
+/* ── SUBMIT BANNER ── */
+.submit-banner { max-width:1200px; margin:0 auto 1.4rem; padding:0 2rem; position:relative; z-index:1; }
+.submit-inner {
+  background:var(--card); border:1px solid rgba(255,98,157,.14);
+  border-radius:14px; padding:1.1rem 1.4rem;
+  display:flex; align-items:center; gap:1rem; flex-wrap:wrap;
+}
+.submit-text { flex:1; }
+.submit-text h3 { font-size:.87rem; font-weight:700; margin-bottom:.18rem; }
+.submit-text p { font-size:.75rem; color:var(--text-secondary); }
+.submit-btn {
+  background:var(--pink-soft); border:1px solid rgba(255,98,157,.35);
+  border-radius:9px; color:var(--pink); font-size:.78rem; font-weight:700;
+  padding:.5rem 1rem; cursor:pointer; font-family:var(--font-body);
+  transition:background .2s; flex-shrink:0;
+}
+.submit-btn:hover { background:rgba(255,98,157,.2); }
+
+/* ── GRID ── */
+main { max-width:1200px; margin:0 auto; padding:.4rem 2rem 5rem; position:relative; z-index:1; }
+.grid-hdr { display:flex; align-items:center; margin-bottom:1rem; }
+.grid-count { font-size:.79rem; color:var(--text-muted); }
+.grid-count b { color:var(--text-primary); }
+.grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(310px,1fr)); gap:1.1rem; }
+
+/* ── CARD ── */
+.card {
+  background:var(--card); border:1px solid var(--border); border-radius:var(--radius);
+  overflow:hidden; display:flex; flex-direction:column;
+  transition:transform .22s, border-color .22s, background .22s;
+}
+.card:hover { transform:translateY(-3px); border-color:var(--border-accent); background:var(--card-hover); }
+
+.card-thumb { height:128px; position:relative; overflow:hidden; display:flex; align-items:center; justify-content:center; }
+.thumb-emoji { font-size:2.8rem; opacity:.32; }
+.thumb-ov { position:absolute; inset:0; background:linear-gradient(to bottom, transparent 30%, rgba(26,26,39,.95)); }
+
+.b-celeb {
+  position:absolute; bottom:.65rem; left:.65rem;
+  display:flex; align-items:center; gap:.32rem;
+  background:rgba(8,8,14,.8); backdrop-filter:blur(8px);
+  border:1px solid var(--border); border-radius:50px; padding:.18rem .52rem .18rem .22rem;
+}
+.c-av {
+  width:19px; height:19px; border-radius:50%;
+  display:flex; align-items:center; justify-content:center;
+  font-size:.56rem; font-weight:700; flex-shrink:0;
+}
+.b-celeb span { font-size:.68rem; font-weight:500; color:var(--text-primary); }
+
+.b-visit {
+  position:absolute; bottom:.65rem; right:.65rem;
+  background:rgba(8,8,14,.8); backdrop-filter:blur(8px);
+  border:1px solid var(--border); border-radius:50px;
+  font-size:.62rem; color:var(--gold); padding:.18rem .52rem; font-weight:600; letter-spacing:.01em;
+}
+.b-cat {
+  position:absolute; top:.65rem; right:.65rem;
+  font-size:.63rem; font-weight:700; letter-spacing:.04em;
+  padding:.2rem .58rem; border-radius:50px;
+}
+
+.card-body { padding:.88rem 1rem; flex:1; display:flex; flex-direction:column; gap:.5rem; }
+.card-name { font-size:1rem; font-weight:700; color:var(--text-primary); letter-spacing:-.01em; line-height:1.3; }
+.card-desc { font-size:.77rem; color:var(--text-secondary); line-height:1.55; }
+.card-meta { display:flex; flex-direction:column; gap:.28rem; }
+.m-row { display:flex; align-items:flex-start; gap:.42rem; font-size:.74rem; color:var(--text-secondary); }
+.m-ico { opacity:.5; flex-shrink:0; margin-top:.06em; }
+.closed-note { color:#ff8c7a; font-size:.68rem; margin-top:.12rem; }
+.tags { display:flex; flex-wrap:wrap; gap:.28rem; margin-top:auto; padding-top:.18rem; }
+.tag { font-size:.63rem; padding:.16rem .48rem; border-radius:50px; border:1px solid var(--border); color:var(--text-muted); }
+
+/* ── REVIEWS ── */
+.reviews-sec {
+  border-top:1px solid var(--border);
+  padding:.7rem 1rem .55rem;
+  background:rgba(0,0,0,.18);
+}
+.r-hdr { display:flex; align-items:center; justify-content:space-between; margin-bottom:.5rem; }
+.r-summary { display:flex; align-items:center; gap:.38rem; }
+.r-stars { color:var(--gold); font-size:.78rem; letter-spacing:-.04em; }
+.r-score { font-size:.78rem; font-weight:700; color:var(--text-primary); }
+.r-cnt { font-size:.7rem; color:var(--text-muted); }
+.btn-review {
+  font-size:.68rem; font-weight:700; color:var(--pink);
+  background:var(--pink-soft); border:1px solid rgba(255,98,157,.3);
+  border-radius:50px; padding:.2rem .65rem; cursor:pointer;
+  font-family:var(--font-body); transition:background .2s;
+}
+.btn-review:hover { background:rgba(255,98,157,.2); }
+.r-list { display:flex; flex-direction:column; gap:.4rem; }
+.r-item {
+  background:rgba(255,255,255,.03); border:1px solid var(--border);
+  border-radius:10px; padding:.48rem .62rem;
+}
+.r-item-hdr { display:flex; align-items:center; justify-content:space-between; margin-bottom:.22rem; }
+.r-nick { font-size:.7rem; font-weight:700; color:var(--text-primary); }
+.r-s { color:var(--gold); font-size:.66rem; }
+.r-date { font-size:.63rem; color:var(--text-muted); }
+.r-text { font-size:.73rem; color:var(--text-secondary); line-height:1.5; }
+.r-more-btn {
+  font-size:.68rem; color:var(--text-muted); background:none; border:none;
+  cursor:pointer; font-family:var(--font-body); margin-top:.28rem; padding:0;
+  text-decoration:underline;
+}
+.r-empty { font-size:.73rem; color:var(--text-muted); text-align:center; padding:.45rem 0; }
+
+/* ── MAP BUTTONS ── */
+.card-footer { padding:.62rem 1rem; border-top:1px solid var(--border); display:flex; gap:.48rem; }
+.btn-map {
+  flex:1; display:flex; align-items:center; justify-content:center; gap:.32rem;
+  padding:.46rem; border-radius:9px; font-size:.74rem; font-weight:700;
+  font-family:var(--font-body); cursor:pointer; border:none; text-decoration:none;
+  transition:opacity .2s;
+}
+.btn-map:hover { opacity:.82; }
+.btn-n { background:#03C75A; color:#fff; }
+.btn-k { background:#FEE500; color:#3C1E1E; }
+
+/* ── CATEGORY COLORS ── */
+.cat-dining     { background:rgba(255,98,157,.14); color:#ff8db8; }
+.cat-cafe       { background:rgba(232,200,122,.14); color:#e8c87a; }
+.cat-shopping   { background:rgba(145,100,255,.14); color:#b48aff; }
+.cat-place      { background:rgba(80,185,255,.14);  color:#7dc8ff; }
+
+/* ── CELEB AVATAR COLORS ── */
+.av-purple { background:rgba(138,99,255,.2); color:#b08aff; }
+.av-pink   { background:rgba(255,98,157,.2); color:#ff8db8; }
+.av-teal   { background:rgba(80,220,200,.2); color:#5decd4; }
+.av-amber  { background:rgba(255,180,60,.2); color:#ffbf40; }
+.av-blue   { background:rgba(100,160,255,.2); color:#82b4ff; }
+
+/* ── MODAL ── */
+.modal-bd {
+  display:none; position:fixed; inset:0; z-index:500;
+  background:rgba(0,0,0,.65); backdrop-filter:blur(5px);
+  align-items:center; justify-content:center; padding:1rem;
+}
+.modal-bd.open { display:flex; }
+.modal {
+  background:#17172a; border:1px solid rgba(255,98,157,.2);
+  border-radius:20px; width:100%; max-width:430px;
+  padding:1.7rem; position:relative;
+  animation:su .2s ease;
+}
+@keyframes su { from { transform:translateY(14px); opacity:0; } to { transform:none; opacity:1; } }
+.modal-x {
+  position:absolute; top:.9rem; right:.9rem;
+  background:rgba(255,255,255,.07); border:none; border-radius:50%;
+  width:28px; height:28px; cursor:pointer; color:var(--text-secondary);
+  font-size:1rem; display:flex; align-items:center; justify-content:center;
+}
+.modal-x:hover { background:rgba(255,255,255,.13); }
+.modal h3 { font-size:1rem; font-weight:700; margin-bottom:.2rem; }
+.modal-pname { font-size:.78rem; color:var(--pink); margin-bottom:1.2rem; }
+.m-field { margin-bottom:.95rem; }
+.m-field label { display:block; font-size:.72rem; color:var(--text-muted); margin-bottom:.38rem; font-weight:700; letter-spacing:.05em; }
+.m-field input, .m-field textarea {
+  width:100%; background:rgba(255,255,255,.06); border:1px solid var(--border);
+  border-radius:10px; padding:.58rem .78rem; color:var(--text-primary);
+  font-family:var(--font-body); font-size:.84rem; outline:none; resize:none;
+  transition:border-color .2s;
+}
+.m-field input:focus, .m-field textarea:focus { border-color:var(--pink); }
+.m-field input::placeholder, .m-field textarea::placeholder { color:var(--text-muted); }
+.star-picker { display:flex; gap:.4rem; }
+.s-btn {
+  font-size:1.38rem; background:none; border:none; cursor:pointer;
+  transition:transform .1s; line-height:1; filter:grayscale(1) opacity(.35);
+}
+.s-btn.lit { filter:none; }
+.s-btn:hover { transform:scale(1.14); }
+.modal-sub {
+  width:100%; padding:.62rem; border-radius:12px; border:none;
+  background:var(--pink); color:#fff; font-family:var(--font-body);
+  font-size:.86rem; font-weight:700; cursor:pointer; margin-top:.2rem;
+  transition:opacity .2s;
+}
+.modal-sub:hover { opacity:.88; }
+
+/* ── EMPTY ── */
+.empty { text-align:center; padding:4rem 1rem; color:var(--text-muted); grid-column:1/-1; }
+.empty-icon { font-size:2.4rem; margin-bottom:.7rem; }
+.empty h3 { font-size:.92rem; color:var(--text-secondary); margin-bottom:.32rem; }
+.empty p { font-size:.8rem; }
+
+footer {
+  border-top:1px solid var(--border); padding:2rem; text-align:center;
+  color:var(--text-muted); font-size:.72rem; line-height:1.9; position:relative; z-index:1;
+}
+
+/* ── TABLET ── */
+@media(max-width:900px){
+  .grid { grid-template-columns: repeat(auto-fill, minmax(280px,1fr)); }
+}
+
+/* ── MOBILE ── */
+@media(max-width:640px){
+  .header-inner { padding:0 1rem; gap:.75rem; height:auto; flex-wrap:wrap; padding-top:.6rem; padding-bottom:.6rem; }
+  .logo-main { font-size:1.1rem; }
+  .total-badge { display:none; }
+  .search-wrap { display:flex; order:3; flex:none; width:100%; max-width:100%; margin-bottom:.2rem; }
+  .search-wrap input { font-size:.9rem; padding:.55rem 1rem .55rem 2.5rem; border-radius:12px; }
+  .theme-bar { top:96px; }
+  .theme-inner { padding:0 1rem; height:46px; }
+  .theme-tab { padding:0 .75rem; font-size:.78rem; }
+  .theme-tab .t-count { display:none; }
+  .hero { padding:2.5rem 1.25rem 1.75rem; }
+  .hero-tag { font-size:.68rem; }
+  .hero p { font-size:.85rem; }
+  .controls-row { padding:.9rem 1rem .5rem; flex-direction:column; align-items:flex-start; gap:.6rem; }
+  .celeb-chips { width:100%; gap:.35rem; }
+  .chip { font-size:.76rem; padding:.28rem .75rem; }
+  .sort-wrap { width:100%; justify-content:flex-end; }
+  .sort-sel { font-size:.8rem; padding:.35rem .75rem; }
+  .submit-banner { padding:0 1rem; }
+  .submit-inner { gap:.75rem; padding:1rem; }
+  .submit-text h3 { font-size:.82rem; }
+  .submit-text p { font-size:.72rem; }
+  .submit-btn { width:100%; text-align:center; padding:.55rem; }
+  main { padding:.4rem 1rem 5rem; }
+  .grid { grid-template-columns:1fr; gap:.9rem; }
+  .card-thumb { height:118px; }
+  .b-celeb span { font-size:.66rem; }
+  .b-visit { font-size:.6rem; }
+  .b-cat { font-size:.6rem; }
+  .card-body { padding:.8rem .9rem; }
+  .card-name { font-size:.95rem; }
+  .card-desc { font-size:.76rem; }
+  .m-row { font-size:.72rem; }
+  .tags { gap:.25rem; }
+  .tag { font-size:.62rem; }
+  .reviews-sec { padding:.65rem .9rem .5rem; }
+  .btn-review { font-size:.66rem; padding:.2rem .58rem; }
+  .r-text { font-size:.71rem; }
+  .card-footer { padding:.58rem .9rem; gap:.4rem; }
+  .btn-map { font-size:.72rem; padding:.44rem; border-radius:8px; }
+  .modal-bd { align-items:flex-end; padding:0; }
+  .modal { border-radius:20px 20px 0 0; max-width:100%; width:100%; padding:1.5rem 1.25rem 2rem; animation:slideUp .22s ease; }
+  .modal h3 { font-size:.95rem; }
+  .m-field label { font-size:.7rem; }
+  .m-field input, .m-field textarea { font-size:.88rem; padding:.55rem .72rem; }
+  .s-btn { font-size:1.6rem; }
+  .modal-sub { font-size:.88rem; padding:.65rem; }
+  footer { font-size:.68rem; padding:1.5rem 1rem; }
+}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="header-inner">
+    <a class="logo" href="#">
+      <span class="logo-main">민수하자</span>
+      <div class="logo-dot"></div>
+    </a>
+    <div class="search-wrap">
+      <span class="search-ico">🔍</span>
+      <input type="text" id="gSearch" placeholder="장소명, 셀럽, 지역, 태그 검색…" oninput="render()">
+    </div>
+    <span class="total-badge">총 <b id="totalCnt">0</b>개 장소</span>
+  </div>
+</header>
+
+<section class="hero">
+  <div class="hero-tag" style="color:var(--pink)">✨ 스타가 다녀간 바로 그 곳</div>
+  <h1 style="color:#ffffff; font-size:clamp(2.6rem,6vw,4.4rem)">민수하자</h1>
+  <p>최애가 간 곳, 나도 가야지!<br>최애가 방문한 핫플 모아보기</p>
+</section>
+
+<div class="theme-bar">
+  <div class="theme-inner" id="themeTabs"></div>
+</div>
+
+<div class="controls-row">
+  <div class="celeb-chips" id="celebChips"></div>
+  <div class="sort-wrap">
+    <span class="sort-lbl">정렬</span>
+    <select class="sort-sel" id="sortSel" onchange="render()">
+      <option value="visitDate">최근 방문순</option>
+      <option value="rating">후기 평점순</option>
+      <option value="reviews">후기 많은순</option>
+      <option value="name">이름순</option>
+    </select>
+  </div>
+</div>
+
+<div class="submit-banner">
+  <div class="submit-inner">
+    <div style="font-size:1.55rem">📍</div>
+    <div class="submit-text">
+      <h3>셀럽 스팟 제보하기</h3>
+      <p>최애가 다녀간 새로운 장소를 알고 계신가요? 제보해주세요!</p>
+    </div>
+    <button class="submit-btn" onclick="alert('제보 기능 준비 중이에요 💌')">+ 장소 제보</button>
+  </div>
+</div>
+
+<main>
+  <div class="grid-hdr">
+    <p class="grid-count"><b id="filtCnt">0</b>개 장소 찾음</p>
+  </div>
+  <div class="grid" id="placeGrid"></div>
+</main>
+
+<footer>
+  손민수 지도 · 팬들이 만드는 셀럽 스팟 아카이브<br>
+  정보는 방문 당시 기준이며 실제와 다를 수 있습니다. 방문 전 꼭 확인해 주세요.
+</footer>
+
+<!-- REVIEW MODAL -->
+<div class="modal-bd" id="reviewModal">
+  <div class="modal">
+    <button class="modal-x" onclick="closeModal()">✕</button>
+    <h3>후기 남기기</h3>
+    <p class="modal-pname" id="mPname"></p>
+    <div class="m-field">
+      <label>닉네임</label>
+      <input type="text" id="rNick" placeholder="예) 아미23호" maxlength="20">
+    </div>
+    <div class="m-field">
+      <label>별점</label>
+      <div class="star-picker" id="starPicker">
+        <button class="s-btn" data-v="1">⭐</button>
+        <button class="s-btn" data-v="2">⭐</button>
+        <button class="s-btn" data-v="3">⭐</button>
+        <button class="s-btn" data-v="4">⭐</button>
+        <button class="s-btn" data-v="5">⭐</button>
+      </div>
+    </div>
+    <div class="m-field">
+      <label>방문 후기</label>
+      <textarea id="rText" rows="4" placeholder="분위기, 음식, 웨이팅 등 솔직하게 공유해 주세요!" maxlength="300"></textarea>
+    </div>
+    <button class="modal-sub" onclick="submitReview()">후기 등록하기</button>
+  </div>
+</div>
+
+<script>
+const THEMES = [
+  { key:'all',      label:'전체',   icon:'🗺️' },
+  { key:'dining',   label:'식당',   icon:'🍽️' },
+  { key:'cafe',     label:'카페',   icon:'☕' },
+  { key:'shopping', label:'쇼핑',   icon:'🛍️' },
+  { key:'place',    label:'관광지', icon:'🏛️' },
+];
+
+const PLACES = [
+  // ── 뷔 (BTS)
+  { id:1, celeb:'뷔 (BTS)', cShort:'뷔', cAv:'av-purple', cat:'dining', catL:'식당',
+    name:'이레 레스토랑', desc:'뷔가 지인들과 여러 차례 방문한 한남동 파인다이닝. 인스타 목격담으로 팬들 성지가 됐어요.',
+    addr:'서울 용산구 한남대로 36길 14', area:'한남동', hours:'월–금 12:00–22:00 / 토·일 11:00–22:00', closed:'',
+    naver:'https://map.naver.com/v5/search/이레레스토랑한남', kakao:'https://map.kakao.com/?q=이레레스토랑한남',
+    src:'온라인 커뮤니티 목격담', tags:['한식','파인다이닝','한남동'], thumb:'🍽️', tbg:'#1e0e20', vDate:'2024-12-10' },
+
+  { id:2, celeb:'뷔 (BTS)', cShort:'뷔', cAv:'av-purple', cat:'cafe', catL:'카페',
+    name:'블루보틀 한남점', desc:'뷔의 팬카페 인증샷으로 유명해진 스페셜티 커피숍. 조용한 분위기와 핸드드립이 특징.',
+    addr:'서울 용산구 한남대로 92-12', area:'한남동', hours:'매일 07:30–21:00', closed:'',
+    naver:'https://map.naver.com/v5/search/블루보틀한남', kakao:'https://map.kakao.com/?q=블루보틀한남',
+    src:'팬 직캠·인증샷', tags:['카페','스페셜티','한남동'], thumb:'☕', tbg:'#0e1a16', vDate:'2024-11-22' },
+
+  { id:3, celeb:'뷔 (BTS)', cShort:'뷔', cAv:'av-purple', cat:'shopping', catL:'쇼핑',
+    name:'더 콘란 샵 이태원', desc:'뷔가 인테리어·빈티지 소품 구매 목적으로 자주 들른다고 알려진 라이프스타일 편집숍.',
+    addr:'서울 용산구 이태원로 200', area:'이태원', hours:'매일 11:00–21:00', closed:'',
+    naver:'https://map.naver.com/v5/search/더콘란샵이태원', kakao:'https://map.kakao.com/?q=더콘란샵이태원',
+    src:'팬 목격담', tags:['인테리어','편집숍','이태원'], thumb:'🛋️', tbg:'#150f1e', vDate:'2024-10-05' },
+
+  { id:4, celeb:'뷔 (BTS)', cShort:'뷔', cAv:'av-purple', cat:'place', catL:'관광지',
+    name:'국립중앙박물관', desc:'전통 미술에 관심이 많은 뷔가 혼자 또는 지인들과 즐겨 찾는 문화 공간.',
+    addr:'서울 용산구 서빙고로 137', area:'용산', hours:'화–일 10:00–18:00 (수·토 21:00까지)', closed:'매주 월요일 / 1월 1일 휴관',
+    naver:'https://map.naver.com/v5/search/국립중앙박물관', kakao:'https://map.kakao.com/?q=국립중앙박물관',
+    src:'팬 직캠·언론 보도', tags:['박물관','문화','용산','무료'], thumb:'🏛️', tbg:'#0e100e', vDate:'2024-09-14' },
+
+  // ── 아이유
+  { id:5, celeb:'아이유', cShort:'아이유', cAv:'av-pink', cat:'cafe', catL:'카페',
+    name:'어니언 성수', desc:'아이유가 드라마 촬영 중 들렀다고 알려진 성수동 핫플. 폐공장 개조 인테리어와 베이커리가 유명.',
+    addr:'서울 성동구 아차산로9길 8', area:'성수동', hours:'매일 09:00–21:00', closed:'',
+    naver:'https://map.naver.com/v5/search/어니언성수', kakao:'https://map.kakao.com/?q=어니언성수',
+    src:'드라마 제작진 SNS', tags:['카페','브런치','성수동'], thumb:'🏭', tbg:'#151510', vDate:'2024-12-01' },
+
+  { id:6, celeb:'아이유', cShort:'아이유', cAv:'av-pink', cat:'dining', catL:'식당',
+    name:'일미관', desc:'아이유가 콘서트 전후 자주 찾는다는 충무로 40년 노포. 갈비찜이 시그니처 메뉴.',
+    addr:'서울 중구 퇴계로 184-1', area:'충무로', hours:'화–일 11:30–21:00 (브레이크 15:00–17:00)', closed:'매주 월요일 휴무',
+    naver:'https://map.naver.com/v5/search/일미관충무로', kakao:'https://map.kakao.com/?q=일미관충무로',
+    src:'방송 인터뷰 언급', tags:['한식','노포','충무로','갈비찜'], thumb:'🥩', tbg:'#1a0e0e', vDate:'2024-11-15' },
+
+  { id:7, celeb:'아이유', cShort:'아이유', cAv:'av-pink', cat:'shopping', catL:'쇼핑',
+    name:'무신사 스탠다드 성수', desc:'아이유가 캐주얼 촬영 중 들렀다 알려진 성수 플래그십. 편안한 데일리룩 쇼핑 장소.',
+    addr:'서울 성동구 왕십리로 125', area:'성수동', hours:'매일 11:00–21:00', closed:'',
+    naver:'https://map.naver.com/v5/search/무신사스탠다드성수', kakao:'https://map.kakao.com/?q=무신사스탠다드성수',
+    src:'팬 목격담', tags:['패션','캐주얼','성수동'], thumb:'👟', tbg:'#10100e', vDate:'2024-10-20' },
+
+  { id:8, celeb:'아이유', cShort:'아이유', cAv:'av-pink', cat:'place', catL:'관광지',
+    name:'경복궁 야간 개장', desc:'아이유가 "꼭 가보고 싶었던 곳"이라 언급. 야간 조명이 환상적인 궁궐 포토스팟.',
+    addr:'서울 종로구 사직로 161', area:'종로', hours:'09:00–18:00 / 야간 19:00–22:00 (기간 한정)', closed:'매주 화요일 휴관',
+    naver:'https://map.naver.com/v5/search/경복궁', kakao:'https://map.kakao.com/?q=경복궁',
+    src:'유튜브 인터뷰', tags:['궁궐','야간개장','종로','포토스팟'], thumb:'🏯', tbg:'#0f1000', vDate:'2024-09-30' },
+
+  // ── 제니 (BLACKPINK)
+  { id:9, celeb:'제니 (BLACKPINK)', cShort:'제니', cAv:'av-amber', cat:'dining', catL:'식당',
+    name:'모수 서울', desc:'제니가 해외 게스트 접대로 선택하며 유명해진 청담 파인다이닝. 예약 필수 코스 레스토랑.',
+    addr:'서울 강남구 선릉로158길 11', area:'청담동', hours:'화–토 12:00–15:00, 18:00–22:00', closed:'일·월요일 휴무',
+    naver:'https://map.naver.com/v5/search/모수서울', kakao:'https://map.kakao.com/?q=모수서울',
+    src:'SNS 파파라치·목격담', tags:['파인다이닝','코스','청담동','예약필수'], thumb:'🌿', tbg:'#0e1a12', vDate:'2024-12-18' },
+
+  { id:10, celeb:'제니 (BLACKPINK)', cShort:'제니', cAv:'av-amber', cat:'shopping', catL:'쇼핑',
+    name:'도산 샤넬 부티크', desc:'제니가 화보 촬영 후 쇼핑하며 포착된 도산공원 명품 부티크. 제니 픽 아이템은 즉시 품절.',
+    addr:'서울 강남구 도산대로 45길 16', area:'도산공원', hours:'매일 11:00–20:00', closed:'',
+    naver:'https://map.naver.com/v5/search/샤넬부티크도산', kakao:'https://map.kakao.com/?q=샤넬부티크도산',
+    src:'팬 목격담·파파라치', tags:['명품','패션','도산공원'], thumb:'👜', tbg:'#100f0a', vDate:'2024-12-05' },
+
+  { id:11, celeb:'제니 (BLACKPINK)', cShort:'제니', cAv:'av-amber', cat:'cafe', catL:'카페',
+    name:'테라로사 강남점', desc:'제니가 오전 시간 자주 방문하는 것으로 알려진 스페셜티 커피 바.',
+    addr:'서울 강남구 도산대로 317', area:'신사동', hours:'매일 08:00–22:00', closed:'',
+    naver:'https://map.naver.com/v5/search/테라로사강남', kakao:'https://map.kakao.com/?q=테라로사강남',
+    src:'팬 목격담', tags:['카페','스페셜티','신사동'], thumb:'☕', tbg:'#120e0e', vDate:'2024-11-08' },
+
+  { id:12, celeb:'제니 (BLACKPINK)', cShort:'제니', cAv:'av-amber', cat:'dining', catL:'식당',
+    name:'르 챔버', desc:'제니가 지인들과 방문한 한남동 프라이빗 스피크이지 바. 초대장 없이는 입장이 어려운 곳.',
+    addr:'서울 용산구 한남동 (주소 비공개)', area:'한남동', hours:'화–토 19:00–03:00', closed:'일·월요일 휴무',
+    naver:'https://map.naver.com/v5/search/르챔버한남', kakao:'https://map.kakao.com/?q=르챔버한남',
+    src:'SNS 목격담', tags:['바','스피크이지','한남동','프라이빗'], thumb:'🍸', tbg:'#0a0e1a', vDate:'2024-10-28' },
+
+  // ── 장원영 (IVE)
+  { id:13, celeb:'장원영 (IVE)', cShort:'장원영', cAv:'av-teal', cat:'cafe', catL:'카페',
+    name:'르 쁘띠 파리', desc:'장원영이 브이로그에서 직접 소개한 프렌치 감성 카페. 크루아상과 라테가 시그니처.',
+    addr:'서울 마포구 연남로 156-1', area:'연남동', hours:'매일 10:00–22:00', closed:'매주 화요일 휴무',
+    naver:'https://map.naver.com/v5/search/르쁘띠파리연남', kakao:'https://map.kakao.com/?q=르쁘띠파리연남',
+    src:'본인 브이로그 공개', tags:['카페','프렌치','연남동'], thumb:'🥐', tbg:'#0f1118', vDate:'2024-12-22' },
+
+  { id:14, celeb:'장원영 (IVE)', cShort:'장원영', cAv:'av-teal', cat:'shopping', catL:'쇼핑',
+    name:'분더샵 청담', desc:'장원영 스타일리스트가 자주 들르며 원영이도 함께 방문했다 알려진 하이엔드 편집숍.',
+    addr:'서울 강남구 청담동 95-4', area:'청담동', hours:'매일 11:00–20:00', closed:'',
+    naver:'https://map.naver.com/v5/search/분더샵청담', kakao:'https://map.kakao.com/?q=분더샵청담',
+    src:'팬 커뮤니티·목격담', tags:['편집숍','하이엔드','청담동'], thumb:'✨', tbg:'#0e1018', vDate:'2024-11-30' },
+
+  { id:15, celeb:'장원영 (IVE)', cShort:'장원영', cAv:'av-teal', cat:'dining', catL:'식당',
+    name:'스시 이덴', desc:'장원영이 생일 기념 식사로 다녀왔다 알려진 오마카세. 제철 생선 코스로 예약 필수.',
+    addr:'서울 강남구 논현로 842', area:'강남', hours:'화–일 12:00–22:00 (예약제)', closed:'매주 월요일 휴무',
+    naver:'https://map.naver.com/v5/search/스시이덴강남', kakao:'https://map.kakao.com/?q=스시이덴강남',
+    src:'팬 커뮤니티 목격담', tags:['오마카세','일식','강남','예약필수'], thumb:'🍣', tbg:'#101018', vDate:'2024-10-15' },
+];
+
+// ── REVIEWS (localStorage)
+function getRevs(id) { try { return JSON.parse(localStorage.getItem('rev_'+id)||'[]'); } catch(e){ return []; } }
+function saveRevs(id,a) { localStorage.setItem('rev_'+id, JSON.stringify(a)); }
+function avgR(revs) { if(!revs.length) return 0; return revs.reduce((s,r)=>s+r.stars,0)/revs.length; }
+function starStr(n) { const f=Math.round(n); return Array.from({length:5},(_,i)=>i<f?'⭐':'☆').join(''); }
+
+// ── STATE
+let activeTheme='all', activeCeleb='all', modalId=null, picked=0;
+
+// ── BUILD THEME TABS
+function buildThemes() {
+  const el = document.getElementById('themeTabs');
+  THEMES.forEach(t => {
+    const cnt = t.key==='all' ? PLACES.length : PLACES.filter(p=>p.cat===t.key).length;
+    const btn = document.createElement('button');
+    btn.className='theme-tab'+(t.key==='all'?' active':'');
+    btn.dataset.theme=t.key;
+    btn.innerHTML=`<span class="t-icon">${t.icon}</span>${t.label}<span class="t-count">${cnt}</span>`;
+    btn.onclick=()=>{ activeTheme=t.key; document.querySelectorAll('.theme-tab').forEach(b=>b.classList.remove('active')); btn.classList.add('active'); render(); };
+    el.appendChild(btn);
+  });
+}
+
+// ── BUILD CELEB CHIPS
+function buildCelebs() {
+  const el = document.getElementById('celebChips');
+  ['전체',...new Set(PLACES.map(p=>p.celeb))].forEach(c => {
+    const key = c==='전체'?'all':c;
+    const btn = document.createElement('button');
+    btn.className='chip'+(key==='all'?' active':'');
+    btn.dataset.celeb=key;
+    btn.innerHTML = key==='all' ? '전체' : `<span class="cdot"></span>${c}`;
+    btn.onclick=()=>{ activeCeleb=key; document.querySelectorAll('.chip[data-celeb]').forEach(b=>b.classList.remove('active')); btn.classList.add('active'); render(); };
+    el.appendChild(btn);
+  });
+}
+
+// ── RELATIVE DATE
+function relDate(s) {
+  const d=Math.floor((Date.now()-new Date(s))/86400000);
+  if(d===0) return '오늘'; if(d<7) return d+'일 전';
+  if(d<30) return Math.floor(d/7)+'주 전';
+  if(d<365) return Math.floor(d/30)+'개월 전';
+  return Math.floor(d/365)+'년 전';
+}
+
+// ── REVIEW BLOCK HTML
+function reviewBlock(p) {
+  const revs=getRevs(p.id), avg=avgR(revs), pre=revs.slice(0,2);
+  return `
+  <div class="reviews-sec">
+    <div class="r-hdr">
+      <div class="r-summary">
+        ${revs.length ? `<span class="r-stars">${starStr(avg)}</span><span class="r-score">${avg.toFixed(1)}</span><span class="r-cnt">(${revs.length}개 후기)</span>` : `<span class="r-cnt">아직 후기가 없어요</span>`}
+      </div>
+      <button class="btn-review" onclick="openModal(${p.id})">✏️ 후기 쓰기</button>
+    </div>
+    <div class="r-list" id="rl-${p.id}">
+      ${!pre.length ? `<p class="r-empty">손민수하고 첫 후기를 남겨보세요 🥹</p>` : ''}
+      ${pre.map(r=>`
+        <div class="r-item">
+          <div class="r-item-hdr">
+            <div style="display:flex;align-items:center;gap:.38rem"><span class="r-nick">${r.nick}</span><span class="r-s">${starStr(r.stars)}</span></div>
+            <span class="r-date">${r.date}</span>
+          </div>
+          <p class="r-text">${r.text}</p>
+        </div>`).join('')}
+      ${revs.length>2?`<button class="r-more-btn" onclick="showAll(${p.id})">후기 ${revs.length-2}개 더 보기</button>`:''}
+    </div>
+  </div>`;
+}
+
+// ── CARD HTML
+function cardHTML(p) {
+  return `
+  <article class="card">
+    <div class="card-thumb" style="background:${p.tbg}">
+      <div class="thumb-emoji">${p.thumb}</div>
+      <div class="thumb-ov"></div>
+      <div class="b-celeb"><div class="c-av ${p.cAv}">${p.cShort.charAt(0)}</div><span>${p.celeb}</span></div>
+      <span class="b-visit">📅 ${relDate(p.vDate)}</span>
+      <span class="b-cat cat-${p.cat}">${p.catL}</span>
+    </div>
+    <div class="card-body">
+      <h2 class="card-name">${p.name}</h2>
+      <p class="card-desc">${p.desc}</p>
+      <div class="card-meta">
+        <div class="m-row"><span class="m-ico">📍</span><span>${p.addr} <span style="color:var(--text-muted)">(${p.area})</span></span></div>
+        <div class="m-row"><span class="m-ico">🕐</span><div><div>${p.hours}</div>${p.closed?`<div class="closed-note">⚠️ ${p.closed}</div>`:''}</div></div>
+        <div class="m-row"><span class="m-ico">🔖</span><span style="color:var(--text-muted)">제보: ${p.src}</span></div>
+      </div>
+      <div class="tags">${p.tags.map(t=>`<span class="tag">#${t}</span>`).join('')}</div>
+    </div>
+    ${reviewBlock(p)}
+    <div class="card-footer">
+      <a class="btn-map btn-n" href="${p.naver}" target="_blank" rel="noopener">🗺 네이버 지도</a>
+      <a class="btn-map btn-k" href="${p.kakao}" target="_blank" rel="noopener">🗺 카카오 지도</a>
+    </div>
+  </article>`;
+}
+
+// ── SHOW ALL REVIEWS
+function showAll(id) {
+  const el=document.getElementById('rl-'+id); if(!el) return;
+  el.innerHTML=getRevs(id).map(r=>`
+    <div class="r-item">
+      <div class="r-item-hdr">
+        <div style="display:flex;align-items:center;gap:.38rem"><span class="r-nick">${r.nick}</span><span class="r-s">${starStr(r.stars)}</span></div>
+        <span class="r-date">${r.date}</span>
+      </div>
+      <p class="r-text">${r.text}</p>
+    </div>`).join('');
+}
+
+// ── RENDER
+function render() {
+  const q=document.getElementById('gSearch').value.toLowerCase().trim();
+  const sort=document.getElementById('sortSel').value;
+  let list=PLACES.filter(p=>{
+    const mt=activeTheme==='all'||p.cat===activeTheme;
+    const mc=activeCeleb==='all'||p.celeb===activeCeleb;
+    const mq=!q||[p.name,p.celeb,p.area,p.addr,...p.tags].some(s=>s.toLowerCase().includes(q));
+    return mt&&mc&&mq;
+  });
+  if(sort==='visitDate') list.sort((a,b)=>b.vDate.localeCompare(a.vDate));
+  else if(sort==='rating') list.sort((a,b)=>avgR(getRevs(b.id))-avgR(getRevs(a.id)));
+  else if(sort==='reviews') list.sort((a,b)=>getRevs(b.id).length-getRevs(a.id).length);
+  else list.sort((a,b)=>a.name.localeCompare(b.name,'ko'));
+  document.getElementById('filtCnt').textContent=list.length;
+  document.getElementById('placeGrid').innerHTML=list.length
+    ? list.map(cardHTML).join('')
+    : `<div class="empty"><div class="empty-icon">🔍</div><h3>검색 결과가 없어요</h3><p>다른 키워드나 필터를 시도해 보세요</p></div>`;
+}
+
+// ── MODAL
+function openModal(id) {
+  modalId=id; picked=0;
+  document.getElementById('mPname').textContent=PLACES.find(p=>p.id===id).name;
+  document.getElementById('rNick').value='';
+  document.getElementById('rText').value='';
+  updStars(0);
+  document.getElementById('reviewModal').classList.add('open');
+}
+function closeModal() { document.getElementById('reviewModal').classList.remove('open'); }
+document.getElementById('reviewModal').addEventListener('click',e=>{ if(e.target===e.currentTarget) closeModal(); });
+
+document.querySelectorAll('.s-btn').forEach(btn=>{
+  btn.addEventListener('click',()=>{ picked=+btn.dataset.v; updStars(picked); });
+  btn.addEventListener('mouseover',()=>updStars(+btn.dataset.v));
+  btn.addEventListener('mouseout',()=>updStars(picked));
+});
+function updStars(n) { document.querySelectorAll('.s-btn').forEach(b=>b.classList.toggle('lit',+b.dataset.v<=n)); }
+
+function submitReview() {
+  const nick=document.getElementById('rNick').value.trim();
+  const text=document.getElementById('rText').value.trim();
+  if(!nick){ alert('닉네임을 입력해 주세요!'); return; }
+  if(!picked){ alert('별점을 선택해 주세요!'); return; }
+  if(text.length<5){ alert('후기를 5자 이상 작성해 주세요!'); return; }
+  const esc=s=>s.replace(/</g,'&lt;').replace(/>/g,'&gt;');
+  const revs=getRevs(modalId);
+  revs.unshift({ nick:esc(nick), stars:picked, text:esc(text), date:new Date().toLocaleDateString('ko-KR') });
+  saveRevs(modalId,revs);
+  closeModal();
+  render();
+}
+
+// ── INIT
+document.addEventListener('DOMContentLoaded',()=>{
+  document.getElementById('totalCnt').textContent=PLACES.length;
+  buildThemes(); buildCelebs(); render();
+});
+</script>
+</body>
+</html>
